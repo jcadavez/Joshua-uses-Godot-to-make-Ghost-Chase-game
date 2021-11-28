@@ -79,3 +79,90 @@ Select the created 'CapsuleShape2D' to set the following properties below:
 
 Save the Player scene to keep all changes.
 
+## Chapter 2 - Scripting the Player 
+
+Select the Player node and click the Script icon to create a script for it. Save it as Player.gd.
+
+![Image on creating the script](Ch%2002%20-%20Scripting%20the%20Player/pic_creating-the-player-script.png)
+
+Add the code snippet below. 
+
+```
+# stats
+var score : int = 0
+
+# physics
+var speed : int = 200
+var jumpForce : int = 600
+var gravity : int = 800
+
+var vel : Vector2 = Vector2()
+var grounded : bool = false
+```
+
+Vector2 defines an x and y value which will later be used to define the player's position and velocity. 
+
+The other values will define the player's physics.
+
+Now, add the code snippet below. This will locate the AnimatedSprite node.
+
+```
+# components
+onready var sprite = $AnimatedSprite
+```
+
+To prepare the controls, you need to set the Input Map. 
+
+To do so, in the Godot Menu bar, select 'Project' and then, 'Project Settings.'
+
+It'll open the Project Settings window. Select the Input Map tab. 
+
+You can create the actions below by inputting them in the 'Action' input field. And then, set the keys by clicking the '+' button for each.
+- move_left - with left arrow key
+- move_right - with right arrow key
+- jump - with up arrow key
+
+![Image on setting inputs](Ch%2002%20-%20Scripting%20the%20Player/pic_setting-input-map.png)
+
+In the Player.gd script, add below to set the player's horizontal velocity
+```
+# Called 60 times a second to define Player's physics calculations
+func _physics_process(delta):
+	# reset the horizontal velocity
+	vel.x = 0
+	
+	# movement inputs 
+	if Input.is_action_pressed("move_left"):
+		vel.x -= speed 
+	if Input.is_action_pressed("move_right"):
+		vel.x += speed
+```
+
+Add the below code snippet to the _physics_process method. Thus, if it collides with another body, it'll slide the body instead of stop immediately. The second parameter is the ground normal vector, or which direction the ground pushes against objects on it.
+```
+# applying the velocity 
+	vel = move_and_slide(vel, Vector2.UP)
+```
+
+To check how it handles gravity and when it can jump, add the below code.
+
+```
+# gravity
+vel.y += gravity * delta
+
+# jump input
+if Input.is_action_pressed("jump") and is_on_floor():
+    vel.y -= jumpForce
+```
+
+Add the below snippet to flip the script depending on the Player's direction
+
+```
+# sprite direction
+if vel.x < 0:
+    sprite.flip_h = true 
+elif vel.x > 0:
+    sprite.flip_h = false
+```
+
+To test this, we need to create an environment for the Player.
