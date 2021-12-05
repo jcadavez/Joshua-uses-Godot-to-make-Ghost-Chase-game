@@ -40,8 +40,8 @@ func _physics_process(delta):
 		vel.y -= jumpForce
 		
 	# sprite direction
-	if vel.x < 0:
+	if vel.x > 0:
 		sprite.flip_h = true 
-	elif vel.x > 0:
+	elif vel.x < 0:
 		sprite.flip_h = false
 		
