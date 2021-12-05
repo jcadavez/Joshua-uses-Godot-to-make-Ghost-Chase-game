@@ -159,9 +159,9 @@ Add the below snippet to flip the script depending on the Player's direction
 
 ```
 # sprite direction
-if vel.x < 0:
+if vel.x > 0:
     sprite.flip_h = true 
-elif vel.x > 0:
+elif vel.x < 0:
     sprite.flip_h = false
 ```
 
@@ -185,7 +185,7 @@ Drag the Player.tscn into the MainScene window. The Player instance will be a ch
 
 Now, you'll be able to play the game and test the player. 
 
-Click the Play button at the top right. It'll ask you to select what's the default main scene. Choose the created MainScene. 
+Click the Play button at the top right. It'll ask you to select what's the default main scene. Choose the created MainScene. It'll create a new window to play the game.
 
 ![Image on selecting default MainScene](Ch%2003%20-%20Creating%20the%20Main%20Scene/pic_playing-main-scene.png)
 
@@ -228,3 +228,24 @@ However, if you play the Main scene again, you'll notice that the Player will dr
 That's b/c you need to set up the tileset's collision properties. That'll be in the next section.
 
 Note, you'll also notice that when you play the game, the Player is a little offscreen. But, we'll fix that later.
+
+## Chapter 4 - Setting the Collision Tiles
+
+Collision tiles are tiles which the Player or other  instances can collide with. Note, collision tiles can be set to collide with certain instances such as by defining layers but that's another topic.
+
+In the Scene window, select the 'DirtTileMap' to display the TileMap Inspector. Then, select the TileSet instance in the Tile Set dropdown to display the bottom Tileset window. In the latter window, select the 'tile-ground.png' and then in the display window, select any tile to display all the tileset modes. 
+
+Click on 'Collision mode'. Now, you'll perform the repetitive process below to make all those tiles collidable. 
+1. Click a tile in the tilemap asset.
+2. Click the 'New Rectangle' icon
+3. Reclick that same tile. Notice that it's yellow, that'll indicate that its collidable
+4. Repeat the process until all tiles are collidable
+
+![Image of the creating tiles under the Player instance](Ch%2004%20-%20Setting%20Collision%20Tiles/pic_creating-collision-tiles.png)
+
+When done, save and replay the Main scene. Now, you can move the Player around.
+
+![Image of the creating tiles under the Player instance](Ch%2004%20-%20Setting%20Collision%20Tiles/pic_testing-player.png)
+
+Now, about that annoying offscreen view...
+
