@@ -166,3 +166,65 @@ elif vel.x > 0:
 ```
 
 To test this, we need to create an environment for the Player.
+
+## Chapter 3 - Creating the Main Scene
+
+Click the '+' tab adjacent to the Player tab of the viewing window. 
+
+The Scene window will display a bunch of root nodes to create. Choose '2D Scene'  
+
+![Image on creating a 2D scene](Ch%2003%20-%20Creating%20the%20Main%20Scene/pic_creating-the-main-scene.png)
+
+Rename the node as 'MainScene' and save it. It'll create the scene MainScene.tscn
+
+![Image on renaming the 2D scene as MainScene](Ch%2003%20-%20Creating%20the%20Main%20Scene/pic_saving-main-scene.png)
+
+Drag the Player.tscn into the MainScene window. The Player instance will be a child under MainScene. 
+
+![Image on dragging the Player instance to MainScene](Ch%2003%20-%20Creating%20the%20Main%20Scene/pic_drag-player-to-main-scene.png)
+
+Now, you'll be able to play the game and test the player. 
+
+Click the Play button at the top right. It'll ask you to select what's the default main scene. Choose the created MainScene. 
+
+![Image on selecting default MainScene](Ch%2003%20-%20Creating%20the%20Main%20Scene/pic_playing-main-scene.png)
+
+Or so you thought... the player will fall. Thus, you can't efficiently test out the game. You'll need to create a tilemap so the player can walk and jump around. 
+
+First, right-click under the MainScene node and select the 'Add child node' option. You'll need the 'TileMap' node and rename it as 'DirtTileMap.' 
+
+Once created, select that node to trigger its Inspector Window. Create a tileset by clicking the 'Tile Set' dropdown then 'new Tile Set.' Then, under the Cell section, edit the Size to be `x: 16` and `y: 16`. You might be wondering why these dimensions?
+
+![Image of the DirtTileMap settings](Ch%2003%20-%20Creating%20the%20Main%20Scene/pic_creating-tilemap.png)
+
+
+That's b/c we'll use our tilemap asset 'tile-ground.png' with 9 types of tiles, each is 16 x 16 pixels. To load it, in Inspector, select the created Tileset to trigger the Tileset bottom panel. Click on the small '+' button aka 'Add Texture(s) to TileSet'. Navigate to the 'Assets' directory then choose the 'tile-ground.png'.
+
+![Image of the DirtTileMap settings](Ch%2003%20-%20Creating%20the%20Main%20Scene/pic_creating-tilemap.png)
+
+Now, we'll have to configure the autotileset settings. Autotileset creates groups of tiles and each tile will be based off its neighboring tiles. 
+
+First, in the TileSet bottom panel, we'll have to select 'Edit' then 'new Autotile'. You'll have to choose the grid icon aka 'Enable snap and show grid (configurable via the Inspector)'. Select part of your tileasset to trigger displaying the Tileset settings in the Inspector window. 
+
+In the 'Autotile Bitmask mode', select '3x3 (minimal).' This allows you to set rules on what tile Autotile will create based on tiles neighboring it from the tile's region below:
+- top-left, 	top-center, 	top-right
+- mid-left, 	mid-center, 	mid-right,
+- bottom-left, 	bottom-center, 	bottom-right
+
+To divide our loaded tilemap asset of 48 x 48 px into nine sections, in the Inspector, we'll have to set the Subtile size to `x: 16` and `y: 16`. We also have to set the Step size to `x: 16` and `y: 16`. Step size will help us properly select which tiles in our loaded tilemap asset to use. So back to the bottom TileSet window, reselect all parts of the loaded tilemap asset.
+
+![Image of the DirtTileMap Autotile settings](Ch%2003%20-%20Creating%20the%20Main%20Scene/pic_setting-autotileset.png)
+
+Remember when I said we have to create rules for what tile to create based on the neighboring tiles? To do so, in the bottom TileSet window, select 'Bitmask' and select the tile sections as shown below in the tilemap asset. Those red sections indicate that this tile will be used if it has tiles neighboring it from that direction.
+
+![Image of the DirtTileMap Bitmask settings](Ch%2003%20-%20Creating%20the%20Main%20Scene/pic_setting-bitmask.png)
+
+Save it and reselect the 'DirtTileMap' node in the Scene window to exit the settings. Now, you can create tiles in the Main scene by dragging your cursor. Create some below your Player instance.
+
+However, if you play the Main scene again, you'll notice that the Player will drop through the tiles. 
+
+![Image of the creating tiles under the Player instance](Ch%2003%20-%20Creating%20the%20Main%20Scene/pic_creating-tiles-in-main-scene.png)
+
+That's b/c you need to set up the tileset's collision properties. That'll be in the next section.
+
+Note, you'll also notice that when you play the game, the Player is a little offscreen. But, we'll fix that later.
