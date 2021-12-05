@@ -241,11 +241,50 @@ Click on 'Collision mode'. Now, you'll perform the repetitive process below to m
 3. Reclick that same tile. Notice that it's yellow, that'll indicate that its collidable
 4. Repeat the process until all tiles are collidable
 
-![Image of the creating tiles under the Player instance](Ch%2004%20-%20Setting%20Collision%20Tiles/pic_creating-collision-tiles.png)
+![Image of the creating Collision tiles](Ch%2004%20-%20Setting%20Collision%20Tiles/pic_creating-collision-tiles.png)
 
 When done, save and replay the Main scene. Now, you can move the Player around.
 
-![Image of the creating tiles under the Player instance](Ch%2004%20-%20Setting%20Collision%20Tiles/pic_testing-player.png)
+![Image of the Testing the Player](Ch%2004%20-%20Setting%20Collision%20Tiles/pic_testing-player.png)
 
 Now, about that annoying offscreen view...
+
+## Chapter 5 - Tracking Camera
+
+When we play the game, there's a camera that controls our view of the game, and that is currently static.
+
+But, we want the camera to follow the Player.
+
+Thus, in the Scene window, right-click under the MainScene node and select 'Add a child node' which will be a 'Camera2D' node.
+
+Once created, select that node to display the Camera Inspector. Then, select the 'current' checkbox so we'll actively use that camera.
+
+![Image of the creating the Camera 2D node](Ch%2005%20-%20Tracking%20Camera/pic_create-camera.png)
+
+To define the Camera's behavior, we need to create a script. In the Scene window, right-click the Camera2D node and select 'Attach Script'. Then, click 'Load' to generate the Camera2d.gd script.
+
+Clear the script but leave the below line alone. That line imports the Camera2D node properties.
+```
+extends Camera2D
+```
+
+Below it, add the below line. This will reference the player node to later track it. `get_node` searches for the node via the given path.
+```
+onready var player = get_node("/root/MainScene/Player")
+```
+
+Then, create a `_process` function with following value below. Thus, in every frame, it'll set the camera's x and y position to be the same as the player's.
+
+```
+# tracks the player along the X and Y axis
+func _process (delta):
+	position = player.position
+```
+A long form version is below. But, to give you an idea how it looks for each axis.
+```
+# tracks the player along the X and Y axis
+func _process (delta):
+	position.x = player.position.x
+	position.y = player.position.y
+```
 
