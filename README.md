@@ -247,6 +247,8 @@ When done, save and replay the Main scene. Now, you can move the Player around.
 
 ![Image of the Testing the Player](Ch%2004%20-%20Setting%20Collision%20Tiles/pic_testing-player.png)
 
+You'll notice that the player motion animation's not working. No worries, we'll get to that later.
+
 Now, about that annoying offscreen view...
 
 ## Chapter 5 - Tracking Camera
@@ -287,4 +289,92 @@ func _process (delta):
 	position.x = player.position.x
 	position.y = player.position.y
 ```
+
+## Chapter 6 - Create Enemy
+
+No game is complete without enemies! 
+
+Create a new node KinematicBody2D with the below children and save it as EnemyRed.tscn and rename the node as EnemyRed. 
+1. Animated Sprite
+2. CollisionShape2D
+
+![Image of creating the enemy children nodes](Ch%2006%20-%20Create%20Enemy/pic_create-enemy-node-children.png)
+
+We're going to setup the AnimatedSprite similarly as we did with the Player in Section 1 except we'll use 'spritesheet-enemy-1.png'. It should look like below.
+
+![Image of AnimationSprite settings](Ch%2006%20-%20Create%20Enemy/pic_setting-animation-sprite.png)
+
+For the CollisionShape2D, use a CapsuleShape2D and use the settings below.
+![Image of CollisionShape2D settings](Ch%2006%20-%20Create%20Enemy/pic_enemy-collision-shape.png)
+
+Now, we want the enemy to respond to gravity and have them move around. Create a script called Enemy.gd to the root node with the below values.
+```
+extends KinematicBody2D
+
+# physics
+export var speed : int = 100
+export var moveDist : int = 100
+var gravity : int = 800
+
+onready var startX : float = position.x 
+onready var targetX : float = position.x + moveDist
+var vel : Vector2 = Vector2()
+
+# components
+onready var sprite = $AnimatedSprite
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+# Called 60 times a second to define Player's physics calculations
+func _physics_process(delta):
+	# applying the velocity 
+	vel = move_and_slide(vel, Vector2.UP)
+	
+	# gravity
+	vel.y += gravity * delta
+	
+	# move to the "targetX" position 
+	position.x = move_to(position.x, targetX, speed * delta)
+
+	# if we're at our target, move in the other direction
+	if position.x == targetX:
+		# if you start at the beginning, move to the finish
+		if targetX == startX:
+			targetX = position.x + moveDist
+		# if you reach the end, return to start
+		else:
+			targetX = startX
+
+# moves "current" towards "to" in an increment of "step"
+func move_to(current, to, step):
+	# are we moving positive?
+	if current < to:
+		current += step
+		# ensures they don't overstep the target
+		if current > to:
+			current = to
+			
+	# are we moving negative?
+	else:
+		current -= step
+		# ensures they don't overstep the target
+		if current < to:
+			current = to 
+			
+	return current
+```
+
+If you play the MainScene, you'll notice the enemy fall down to the ground and start moving.
+
+Create a few more enemy nodes with the same above steps but with different names and spritesheets. Add one of each to the MainScene for testing. Don't forget to rename the KinematicBody2D node as well.
+1. EnemyBlue - 'spritesheet-enemy-2.png'
+2. EnemyGreen - 'spritesheet-enemy-3.png'
+
+Also, you might want to expand your DirtTileMap b/c we need space to add the enemies.
+
+![Image of multiple enemies](Ch%2006%20-%20Create%20Enemy/pic_create-more-enemies.png)
+
+You can set them to different speeds too in the Inspector. Replay the MainScene, all enemies will start moving. But, when you touch them, you won't get hurt. Time to make it risqué...
 
