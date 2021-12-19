@@ -5,8 +5,8 @@ var score : int = 0
 
 # physics
 var speed : int = 200
-var jumpForce : int = 600
-var gravity : int = 800
+var jumpForce : int = 300
+var gravity : int = 400
 
 var vel : Vector2 = Vector2()
 var grounded : bool = false
@@ -31,6 +31,11 @@ func _physics_process(delta):
 	
 	# applying the velocity 
 	vel = move_and_slide(vel, Vector2.UP)
+	# iterate through all objects that slide against the player
+	for i in get_slide_count():
+		var collision = get_slide_collision(i)
+		if "Enemy" in collision.collider.name:
+			die()
 	
 	# gravity
 	vel.y += gravity * delta
@@ -45,3 +50,5 @@ func _physics_process(delta):
 	elif vel.x < 0:
 		sprite.flip_h = false
 		
+func die():
+	get_tree().reload_current_scene()

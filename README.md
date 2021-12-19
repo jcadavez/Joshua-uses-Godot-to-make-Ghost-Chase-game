@@ -93,8 +93,8 @@ var score : int = 0
 
 # physics
 var speed : int = 200
-var jumpForce : int = 600
-var gravity : int = 800
+var jumpForce : int = 300
+var gravity : int = 400
 
 var vel : Vector2 = Vector2()
 var grounded : bool = false
@@ -378,3 +378,33 @@ Also, you might want to expand your DirtTileMap b/c we need space to add the ene
 
 You can set them to different speeds too in the Inspector. Replay the MainScene, all enemies will start moving. But, when you touch them, you won't get hurt. Time to make it risqué...
 
+## Chapter 7 - Enemy Collisions
+
+We need to detect enemy collisions. To do so, we need to modify the Player.gd script.
+
+Under the `move_and_slide()`, add this code snippet below
+```
+# iterate through all objects that slide against the player
+for i in get_slide_count():
+	var collision = get_slide_collision(i)
+	if "Enemy" in collision.collider.name:
+		print("I collided with ", i, ": ", collision.collider.name)
+```
+
+When you play the scene, it'll log whenever the Player collides with another object. 
+
+![Image of logging collisions](Ch%2007%20-%20Enemy%20Collisions/pic_log-enemy-collision.png)
+
+Now, we want to restart the game if the Player collides with the enemies.
+
+Replace the `print()` with `die()` like below
+```
+if "Enemy" in collision.collider.name:
+	die()
+```
+
+And then create the function below. Then, replay the game. It now works!
+```
+func die():
+	get_tree().reload_current_scene()
+```
