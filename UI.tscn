@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/sprite-coin.png" type="Texture" id=1]
+[ext_resource path="res://Assets/GhostFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://UI.gd" type="Script" id=3]
+
+[node name="UI" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = 20.0
+margin_top = 30.0
+margin_right = 60.0
+margin_bottom = 70.0
+texture = ExtResource( 1 )
+expand = true
+
+[node name="ScoreText" type="Label" parent="."]
+margin_left = 90.0
+margin_top = 20.0
+margin_right = 190.0
+margin_bottom = 84.0
+custom_fonts/font = ExtResource( 2 )
+text = "50"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

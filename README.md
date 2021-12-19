@@ -439,8 +439,74 @@ func _on_Coin_body_entered (body):
         queue_free()
 ```
 
-Save this Coin as a scene Coin.tscn and drag several instances to the Main scene to test it out.
+Save this Coin as a scene Coin.tscn and drag several instances to the Main scene to test it out. The problem is that we don't know what's the score. But, we'll solve that in the next chapter.
 
 The coins are small, so feel free to adjust the CollisionShape2D and sprite size. I made it twice as big.
 
 ![Image of testing coins](Ch%2008%20-%20Coin%20Signals/pic_testing-coins.png)
+
+## Chapter 9 Score UI
+
+Create a new scene with the root node as Control (aka User Interface). Rename it as UI and save it as UI.tscn.
+
+![Image of Creating the UI](Ch%2009%20-%20Score%20UI/pic_creating-ui.png)
+
+To create the coin icon, add a child node of type TextureRect. Then, drag the coin sprite asset into the Inspector's Texture field. Also, set the Position to 20, 20.
+
+![Image of Setting the Coin Icon](Ch%2009%20-%20Score%20UI/pic_ui-coin-icon.png)
+
+To create the text, add a child node Label with the below settings:
+1. Rename to 'ScoreText'
+2. Set the Position to 90, 20
+3. Set the Size to 100, 64
+
+![Image of Creating the Label](Ch%2009%20-%20Score%20UI/pic_create-label.png)
+
+We want to create the font. In the Inspector and under Custom Fonts, create a new DynamicFont. Drag from the Assets folder Mostly Ghostly.ttf to the Font Data. Set the font size to 40. In the Font dropdown, save it in the Assets folder as GhostFont.tres. Save changes to the ScoreText.
+
+![Image of creating the font](Ch%2009%20-%20Score%20UI/pic_creating-font.png)
+
+Still in the Inspector, in the Text input box, set a placeholder number. I chose 50. Set the Valign to Center to center the text vertically.
+
+![Image of creating placeholder text](Ch%2009%20-%20Score%20UI/pic_setting-font-text.png)
+
+On second thought, it might be better to make the coin icon bigger. Click the TextureRect node and select the Coin sprite in the Inspector. Then, set the following:
+1. Expand is checked on
+2. Stretch mode is set to Scale on Expand (Compat)
+3. Position is set to 20, 30
+
+![Image of Setting the Coin icon size](Ch%2009%20-%20Score%20UI/pic_ui-coin-size-settings.png)
+
+Before we drag the UI scene into the Main scene, we want to make sure the UI follows the camera. 
+
+So first, add the node CanvasLayer under the MainScene root node. Then, add the UI node under CanvasLayer. Now, play the Main scene. The UI should follow the player.
+
+![Image of testing UI](Ch%2009%20-%20Score%20UI/pic_testing-ui.png)
+
+To update the score, create the script UI.gd with the below snippet.
+```
+extends Control
+
+# gets the score text node when the game starts
+onready var scoreText = get_node("ScoreText")
+
+# initializes score to 0
+func _ready():
+	scoreText.text = "0"
+
+# sets the score
+func set_score_text(score):
+	scoreText.text = str(score)
+```
+
+In the Player script, create a variable to reference the UI node.
+```
+onready var ui = get_node("/root/MainScene/CanvasLayer/UI")
+```
+And in the `collect_coin()` function, add to the bottom below. If you see path warnings, ignore it and play to see if it works (hopefully). 
+```
+ui.set_score_text(score)
+```
+When you collect the coins, it should update the score.
+
+![Image of testing Score UI](Ch%2009%20-%20Score%20UI/pic_testing-score-ui.png)

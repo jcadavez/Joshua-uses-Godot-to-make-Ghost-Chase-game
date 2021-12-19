@@ -13,6 +13,7 @@ var grounded : bool = false
 
 # components
 onready var sprite = $AnimatedSprite
+onready var ui = get_node("/root/MainScene/CanvasLayer/UI");
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -56,3 +57,5 @@ func die():
 # called when we run into a coin
 func collect_coin (value):
 	score += value
+	ui.set_score_text(score)
+	
