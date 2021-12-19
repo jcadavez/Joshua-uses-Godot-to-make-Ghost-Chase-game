@@ -52,3 +52,7 @@ func _physics_process(delta):
 		
 func die():
 	get_tree().reload_current_scene()
+	
+# called when we run into a coin
+func collect_coin (value):
+	score += value

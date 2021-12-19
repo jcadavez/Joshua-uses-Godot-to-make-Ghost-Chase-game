@@ -408,3 +408,39 @@ And then create the function below. Then, replay the game. It now works!
 func die():
 	get_tree().reload_current_scene()
 ```
+
+## Chapter 8 - Collecting Coins 
+
+The Player needs an objective other than dodging enemies. So, let's add coins!
+
+In the script Player.gd, create the below function `collect_coin()`
+```
+# called when we run into a coin
+func collect_coin (value):
+    score += value
+```
+
+Let's create a new scene with the root node Area2D. Add a CollisionShape2D with a circle shape. Then, drag and center the asset 'sprite-coin.png'
+
+![Image of coin settings](Ch%2008%20-%20Coin%20Signals/pic_coin-settings.png)
+
+Now, we need to create a signal when the player collides with the signal. Signals allow the node to send a message that other nodes can listen and respond to.
+
+Select the root Area2D node and in the Inspector, select the Node tab. Double-click on the `body_entered` signal to attach it on the script.
+
+![Image of creating the coin signal](Ch%2008%20-%20Coin%20Signals/pic_coin-body-enters-signal.png)
+
+Add below to the created signal function
+```
+# called when something collides with us
+func _on_Coin_body_entered (body):
+    if body.name == "Player":
+        body.collect_coin(value)
+        queue_free()
+```
+
+Save this Coin as a scene Coin.tscn and drag several instances to the Main scene to test it out.
+
+The coins are small, so feel free to adjust the CollisionShape2D and sprite size. I made it twice as big.
+
+![Image of testing coins](Ch%2008%20-%20Coin%20Signals/pic_testing-coins.png)

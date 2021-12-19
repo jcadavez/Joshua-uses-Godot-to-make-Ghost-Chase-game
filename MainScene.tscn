@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/tile-ground.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://EnemyRed.tscn" type="PackedScene" id=4]
 [ext_resource path="res://EnemyBlue.tscn" type="PackedScene" id=5]
 [ext_resource path="res://EnemyGreen.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Coin.tscn" type="PackedScene" id=7]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
@@ -148,3 +149,12 @@ position = Vector2( -282.862, -105.912 )
 [node name="EnemyGreen" parent="." instance=ExtResource( 6 )]
 position = Vector2( -121.887, 105.925 )
 speed = 400
+
+[node name="Coin" parent="." instance=ExtResource( 7 )]
+position = Vector2( -96.8752, -97.6943 )
+
+[node name="Coin2" parent="." instance=ExtResource( 7 )]
+position = Vector2( -143.436, 3.92154 )
+
+[node name="Coin3" parent="." instance=ExtResource( 7 )]
+position = Vector2( 162.041, 1.71935 )
