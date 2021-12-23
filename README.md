@@ -320,50 +320,38 @@ onready var startX : float = position.x
 onready var targetX : float = position.x + moveDist
 var vel : Vector2 = Vector2()
 
+# determines direction of the enemy
+var go_right : bool
+
 # components
 onready var sprite = $AnimatedSprite
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	go_right = true
 
 # Called 60 times a second to define Player's physics calculations
 func _physics_process(delta):
+	# reset the horizontal velocity
+	vel.x = 0
+	
+	# movement
+	if position.x < targetX && go_right == true:
+		# flips sprite direction based on movement
+		sprite.flip_h = true 
+		vel.x += speed
+	elif position.x > startX && go_right == false:
+		# flips sprite direction based on movement
+		sprite.flip_h = false 
+		vel.x -= speed
+	else:
+		go_right = !go_right
+	
 	# applying the velocity 
 	vel = move_and_slide(vel, Vector2.UP)
 	
 	# gravity
 	vel.y += gravity * delta
-	
-	# move to the "targetX" position 
-	position.x = move_to(position.x, targetX, speed * delta)
-
-	# if we're at our target, move in the other direction
-	if position.x == targetX:
-		# if you start at the beginning, move to the finish
-		if targetX == startX:
-			targetX = position.x + moveDist
-		# if you reach the end, return to start
-		else:
-			targetX = startX
-
-# moves "current" towards "to" in an increment of "step"
-func move_to(current, to, step):
-	# are we moving positive?
-	if current < to:
-		current += step
-		# ensures they don't overstep the target
-		if current > to:
-			current = to
-			
-	# are we moving negative?
-	else:
-		current -= step
-		# ensures they don't overstep the target
-		if current < to:
-			current = to 
-			
-	return current
 ```
 
 If you play the MainScene, you'll notice the enemy fall down to the ground and start moving.
@@ -510,3 +498,26 @@ ui.set_score_text(score)
 When you collect the coins, it should update the score.
 
 ![Image of testing Score UI](Ch%2009%20-%20Score%20UI/pic_testing-score-ui.png)
+
+## Chapter 10 Animation State
+
+To play the Player's animation when he moves, add the below code snippet to the Player.gd script's movement inputs
+
+```
+# plays "float" animation if it's moving
+if vel.x != 0:
+	sprite.play("float")
+else:
+	sprite.stop()
+```
+
+We'll perform the same with the Enemy. Add the below code snippet to Enemy.gd script's movement code snippet.
+```
+# plays "float" animation if it's moving
+if vel.x != 0:
+	sprite.play("float")
+else:
+	sprite.stop()
+```
+
+Play the game and you can observe their animated movements.

@@ -29,7 +29,13 @@ func _physics_process(delta):
 		vel.x -= speed 
 	if Input.is_action_pressed("move_right"):
 		vel.x += speed
-	
+		
+	# plays "float" animation if it's moving
+	if vel.x != 0:
+		sprite.play("float")
+	else:
+		sprite.stop()
+		
 	# applying the velocity 
 	vel = move_and_slide(vel, Vector2.UP)
 	# iterate through all objects that slide against the player
