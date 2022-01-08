@@ -521,3 +521,34 @@ else:
 ```
 
 Play the game and you can observe their animated movements.
+
+Now, we need to create the Player's death animation.
+
+First, we need to create a death animation similar to how we added it in 'Chapter 1 - Creating the Player'. Confirm the AnimationSprite's default animation is 'float' otherwise it'll look dead on the start (unless you move).
+
+![Image of Player death animation settings](Ch%2010%20-%20Animation%20States/pic_death-animation-settings.png)
+
+Open the player.gd script and the below variable
+```
+var alive = true
+```
+Then in the `physics_process` function, add the code under the below conditional
+```
+func _physics_process(delta):
+	# Player moves only if alive
+	if alive:
+	...
+```
+
+Finally, update the `die` function to below
+```
+func die():
+	alive = false
+	sprite.play("death")
+	yield(get_tree().create_timer(2), "timeout")
+	get_tree().reload_current_scene()
+```
+
+Replay the game and observe if the death animation plays as expected.
+
+Note: There's a known issue that if you stay still AND the enemy crashes into you, the death doesn't trigger. Perhaps, there's a better way to trigger damage.
