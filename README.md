@@ -294,7 +294,7 @@ func _process (delta):
 
 No game is complete without enemies! 
 
-Create a new node KinematicBody2D with the below children and save it as EnemyRed.tscn and rename the node as EnemyRed. 
+Create a new node KinematicBody2D with the below children and save it as Enemy.tscn and rename the node as Enemy. 
 1. Animated Sprite
 2. CollisionShape2D
 
@@ -354,11 +354,22 @@ func _physics_process(delta):
 	vel.y += gravity * delta
 ```
 
-If you play the MainScene, you'll notice the enemy fall down to the ground and start moving.
+Drag the Enemy scene into the MainScene. If you play the MainScene, you'll notice the enemy fall down to the ground and start moving.
 
-Create a few more enemy nodes with the same above steps but with different names and spritesheets. Add one of each to the MainScene for testing. Don't forget to rename the KinematicBody2D node as well.
-1. EnemyBlue - 'spritesheet-enemy-2.png'
-2. EnemyGreen - 'spritesheet-enemy-3.png'
+Now, we'll create different Enemy nodes. But, we want them to share the same characteristics except different speeds and spritesheets.
+
+To do so, select Scene > New Inherited Scene... Select the Enemy.tscn. Notice that it'll have a new unsaved scene. Save it as Enemy{COLOR}.tscn
+
+![Image of unsaved inherited Enemy scene](Ch%2006%20-%20Create%20Enemy/pic_inherit-enemy.png)
+
+You'll notice that if you load another spritesheet, it'll affect the parent scene (Enemy.tscn). To avoid this, in the newly created scene, select the AnimatedSprite and the wrench icon in the Inspector. Select 'Make sub-resources unique'.
+
+![Image of subresources unique option](Ch%2006%20-%20Create%20Enemy/pic_unique-sub-resources.png)
+
+Create a few more enemy nodes with the same above steps but with different names, spritesheets, speeds, and distances. Remove the existing Enemy.tscn scene. Then, add one of each to the MainScene for testing. Don't forget to rename the KinematicBody2D node as well.
+1. EnemyRed - 'spritesheet-enemy-1.png'
+2. EnemyBlue - 'spritesheet-enemy-2.png'
+3. EnemyGreen - 'spritesheet-enemy-3.png'
 
 Also, you might want to expand your DirtTileMap b/c we need space to add the enemies.
 

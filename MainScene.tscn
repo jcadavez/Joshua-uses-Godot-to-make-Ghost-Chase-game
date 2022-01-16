@@ -144,17 +144,6 @@ tile_data = PoolIntArray( -327676, 0, 0, -327675, 0, 1, -327674, 0, 1, -327673, 
 current = true
 script = ExtResource( 3 )
 
-[node name="EnemyRed" parent="." instance=ExtResource( 4 )]
-position = Vector2( -268.005, 4.25117 )
-speed = 200
-
-[node name="EnemyBlue" parent="." instance=ExtResource( 5 )]
-position = Vector2( -282.862, -105.912 )
-
-[node name="EnemyGreen" parent="." instance=ExtResource( 6 )]
-position = Vector2( -121.887, 105.925 )
-speed = 400
-
 [node name="Coin" parent="." instance=ExtResource( 7 )]
 position = Vector2( -96.8752, -97.6943 )
 
@@ -163,3 +152,12 @@ position = Vector2( -143.436, 3.92154 )
 
 [node name="Coin3" parent="." instance=ExtResource( 7 )]
 position = Vector2( 162.041, 1.71935 )
+
+[node name="EnemyRed" parent="." instance=ExtResource( 4 )]
+position = Vector2( -268.251, 4.95148 )
+
+[node name="EnemyBlue" parent="." instance=ExtResource( 5 )]
+position = Vector2( -275.765, -136.749 )
+
+[node name="EnemyGreen" parent="." instance=ExtResource( 6 )]
+position = Vector2( -120.677, 88.4397 )
