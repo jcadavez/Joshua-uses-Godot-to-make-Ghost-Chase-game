@@ -64,7 +64,7 @@ func die():
 	alive = false
 	sprite.play("death")
 	yield(get_tree().create_timer(2), "timeout")
-	get_tree().reload_current_scene()
+	get_tree().change_scene("res://MenuScene.tscn")
 	
 # called when we run into a coin
 func collect_coin (value):

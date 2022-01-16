@@ -552,3 +552,66 @@ func die():
 Replay the game and observe if the death animation plays as expected.
 
 Note: There's a known issue that if you stay still AND the enemy crashes into you, the death doesn't trigger. Perhaps, there's a better way to trigger damage.
+
+## Chapter 11 Start Menu
+
+First, create a Node2D scene called 'MenuScene'.
+
+Add a child CanvasLayer node called 'HUD'. This stands for Heads Up Display.
+
+Add several children nodes under with the following properties
+1. Label
+	- text: Ghost Chase Game
+	- name: Message
+	- align: center 
+	- layout: HCenter Wide
+2. Timer
+	- name: MessageTimer
+	- One Shot: on selected
+	- Wait Time: 3
+3. Button 
+	- text: Start
+	- layout: center
+	- margin top: -100 
+	- margin bottom: -80
+4. Label
+	- text: Ready to play?
+	- layout: HCenterwide
+	- align: center 
+	- valign: center
+
+![Image of children nodes](Ch%2011%20-%20Start%20Menu/pic_menu-nodes.png)
+
+Create a GDscript for the MenuScene node and the below code
+```
+extends Node2D
+
+onready var timer = get_node("HUD/MessageTimer");
+var countdownMessage = "Ready to play?"
+var countdownFlag = false
+
+func _process(delta):
+	if (countdownFlag):
+		$HUD/CountdownMessage.text = str(ceil(timer.time_left))
+
+func show_message(text):
+	$HUD/Message.text = text 
+	$HUD/Message.show()
+	$HUD/MessageTimer.start()
+```
+For the StartButton,create a `pressed()` signal for the MenuScene script. And it should have the below code.
+```
+func _on_StartButton_pressed():
+	show_message("Playing the Ghost game in...")
+	countdownFlag = true
+	$HUD/StartButton.hide()
+	# Wait until the MessageTimer has counted down.
+	yield($HUD/MessageTimer, "timeout")
+	get_tree().change_scene("res://MainScene.tscn")
+``` 
+
+In the Player GD script, replace the `die()` function's `get_tree().reload_current_scene()` with `get_tree().change_scene("res://MenuScene.tscn")`
+
+In the Project Settings, set the MenuScene as default. And play the game.
+
+![Image of project settings main menu scene](Ch%2011%20-%20Start%20Menu/pic_project-settings-main-scene.png)
